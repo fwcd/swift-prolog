@@ -29,6 +29,10 @@ let package = Package(
         ),
         .target(
             name: "PrologInterpreter",
+            dependencies: ["ParserCombinators"]
+        ),
+        .target(
+            name: "ParserCombinators",
             dependencies: []
         ),
         .testTarget(
