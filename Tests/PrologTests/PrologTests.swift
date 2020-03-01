@@ -6,7 +6,7 @@ final class PrologTests: XCTestCase {
         ("testExample", testExample),
     ]
 
-    func testExample() {
+    private func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.

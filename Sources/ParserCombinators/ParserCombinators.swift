@@ -12,3 +12,8 @@ public func seq<L, R>(_ left: L, _ right: R) -> SeqParser<L, R> where L: Parser,
 public func regex(_ pattern: String) throws -> RegexParser {
     return try RegexParser(pattern: pattern)
 }
+
+/// A parser for constant literals.
+public func const(_ value: String) -> ConstParser {
+    return ConstParser(value: value)
+}

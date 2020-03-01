@@ -38,6 +38,10 @@ let package = Package(
         .testTarget(
             name: "PrologTests",
             dependencies: ["PrologInterpreter"]
+        ),
+        .testTarget(
+            name: "ParserCombinatorsTests",
+            dependencies: ["ParserCombinators"]
         )
     ]
 )
