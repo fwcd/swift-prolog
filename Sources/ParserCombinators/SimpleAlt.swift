@@ -10,3 +10,5 @@ public enum SimpleAlt<L, R>: Alt {
         return .right(right)
     }
 }
+
+extension SimpleAlt: Equatable where L: Equatable, R: Equatable {}

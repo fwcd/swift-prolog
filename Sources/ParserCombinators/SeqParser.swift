@@ -1,5 +1,5 @@
 /// Parses a sequence/concatenation.
-public struct SeqParser<L, R>: Parser where L: Parser, R: Parser {
+public struct SeqParser<L, R, S>: Parser where L: Parser, R: Parser, S: Seq, L.Value == S.Left, R.Value == S.Right {
     private let left: L
     private let right: R
     
@@ -8,8 +8,8 @@ public struct SeqParser<L, R>: Parser where L: Parser, R: Parser {
         self.right = right
     }
     
-    public func parse(from raw: String) -> ((L.Value, R.Value), String)? {
+    public func parse(from raw: String) -> (S, String)? {
         return left.parse(from: raw)
-            .flatMap { (l, s1) in right.parse(from: s1).map { (r, s2) in ((l, r), s2) } }
+            .flatMap { (l, s1) in right.parse(from: s1).map { (r, s2) in (S.from(l, r), s2) } }
     }
 }

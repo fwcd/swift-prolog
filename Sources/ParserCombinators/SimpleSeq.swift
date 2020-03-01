@@ -6,3 +6,5 @@ public struct SimpleSeq<L, R>: Seq {
         return SimpleSeq(left: left, right: right)
     }
 }
+
+extension SimpleSeq: Equatable where L: Equatable, R: Equatable {}

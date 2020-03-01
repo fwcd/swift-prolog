@@ -8,12 +8,22 @@ final class ParserCombinatorsTests: XCTestCase {
     ]
     
     private func testConst() {
-        XCTAssertEqual(const("T").parse(from: "Test"), ("T", "est"))
+        let (l, s) = const("T").parse(from: "Test")!
+        XCTAssertEqual(l, "T")
+        XCTAssertEqual(s, "est")
         XCTAssertNil(const("Demo").parse(from: "abc"))
     }
 
     private func testAlt() {
-        let alternative = alt(const("L"), alt(const("R1"), const("R2")))
+        let alternative: AltParser<
+            ConstParser,
+            AltParser<
+                ConstParser,
+                ConstParser,
+                SimpleAlt<String, String>
+            >,
+            SimpleAlt<String, SimpleAlt<String, String>>
+        > = alt(const("L"), alt(const("R1"), const("R2")))
         XCTAssertEqual(alternative.parseValue(from: "L"), SimpleAlt.left("L"))
         XCTAssertEqual(alternative.parseValue(from: "R12"), SimpleAlt.right(SimpleAlt.left("R1")))
         XCTAssertNil(alternative.parseValue(from: "R3"))

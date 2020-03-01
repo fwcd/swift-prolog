@@ -1,10 +1,10 @@
 /// A parser for an alternative.
-public func alt<L, R>(_ left: L, _ right: R) -> AltParser<L, R> where L: Parser, R: Parser, L.Value == R.Value {
+public func alt<L, R, A>(_ left: L, _ right: R) -> AltParser<L, R, A> where L: Parser, R: Parser, A: Alt, A.Left == L.Value, A.Right == R.Value {
     return AltParser(left: left, right: right)
 }
 
 /// A parser for a sequence/concatenation.
-public func seq<L, R>(_ left: L, _ right: R) -> SeqParser<L, R> where L: Parser, R: Parser {
+public func seq<L, R, S>(_ left: L, _ right: R) -> SeqParser<L, R, S> where L: Parser, R: Parser, S: Seq, S.Left == L.Value, S.Right == R.Value {
     return SeqParser(left: left, right: right)
 }
 
