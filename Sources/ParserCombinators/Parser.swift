@@ -7,13 +7,12 @@ public protocol Parser {
     /// (if successful) and the remaining (unprocessed)
     /// string.
     func parse(from raw: String) -> (Value, String)?
-    
-    /// Convenience method for only parsing the value.
-    func parseValue(from raw: String) -> Value?
 }
 
 public extension Parser {
+    /// Convenience method for only parsing a value
+    /// and making sure the whole string is consumed.
     func parseValue(from raw: String) -> Value? {
-        return parse(from: raw).map { (v, _) in v }
+        return parse(from: raw).flatMap { (v, s) in s.isEmpty ? v : nil }
     }
 }

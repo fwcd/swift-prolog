@@ -1,3 +1,7 @@
+/// Convenient parser combinator factory methods
+/// forming a "DSL" for describing parsers in a
+/// declarative way.
+
 /// A parser for an alternative with a custom type.
 public func alt<L, R, A>(_ left: L, _ right: R, as: A.Type) -> AltParser<L, R, A> where L: Parser, R: Parser, A: Alt, A.Left == L.Value, A.Right == R.Value {
     return AltParser(left: left, right: right)
@@ -16,6 +20,25 @@ public func seq<L, R, S>(_ left: L, _ right: R, as: S.Type) -> SeqParser<L, R, S
 /// A parser for a sequence/concatenation.
 public func seq<L, R>(_ left: L, _ right: R) -> SeqParser<L, R, SimpleSeq<L.Value, R.Value>> where L: Parser, R: Parser {
     return SeqParser(left: left, right: right)
+}
+
+/// A parser for a value repeated zero or one times with a custom type.
+public func opt<T, O>(_ inner: T, as: O.Type) -> OptParser<T, O> where T: Parser, O: Opt, O.Value == T.Value {
+    return OptParser(inner: inner)
+}
+/// A parser for a value repeated zero or one times.
+public func opt<T>(_ inner: T) -> OptParser<T, SimpleOpt<T.Value>> where T: Parser {
+    return OptParser(inner: inner)
+}
+
+/// A parser for a value repeated zero or more times.
+public func rep<T>(_ inner: T) -> RepParser<T> where T: Parser {
+    return RepParser(inner: inner)
+}
+
+/// A parser for a value repeated one or more times.
+public func rep1<T>(_ inner: T) -> Rep1Parser<T> where T: Parser {
+    return Rep1Parser(inner: inner)
 }
 
 /// A parser for a regular expression.

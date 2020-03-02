@@ -1,4 +1,4 @@
-/// Parses a sequence/concatenation.
+/// Parses a sequence/concatenation to a custom type S.
 public struct SeqParser<L, R, S>: Parser where L: Parser, R: Parser, S: Seq, L.Value == S.Left, R.Value == S.Right {
     private let left: L
     private let right: R

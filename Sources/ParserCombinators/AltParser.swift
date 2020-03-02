@@ -1,4 +1,4 @@
-/// Parses an alternative.
+/// Parses an alternative to a custom type A.
 public struct AltParser<L, R, A>: Parser where L: Parser, R: Parser, A: Alt, L.Value == A.Left, R.Value == A.Right {
     private let left: L
     private let right: R
