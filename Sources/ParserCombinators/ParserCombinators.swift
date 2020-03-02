@@ -41,6 +41,13 @@ public func rep1<T>(_ inner: T) -> Rep1Parser<T> where T: Parser {
     return Rep1Parser(inner: inner)
 }
 
+/// A boxed and type-erased recursively parser.
+public func recursive<T>(_ makeInner: (AnyParser<T.Value>) -> T) -> BoxParser<T> where T: Parser {
+    let box = BoxParser<T>()
+    box.inner = makeInner(box.weakly.typeErased)
+    return box
+}
+
 /// A parser for a regular expression.
 public func regex(_ pattern: String) throws -> RegexParser {
     return try RegexParser(pattern: pattern)
