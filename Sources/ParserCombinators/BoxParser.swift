@@ -6,7 +6,7 @@
 /// this way:
 ///
 ///     let box = BoxParser()
-///     box.inner = SomeParser(box.weakly)
+///     box.inner = SomeParser(box.weakly.typeErased)
 /// 
 /// Note that the box should always be referenced weakly
 /// when being passed into itself, since otherwise a
@@ -28,7 +28,7 @@ public class BoxParser<T>: Parser where T: Parser {
         }
     }
     
-    public init(inner: T? = nil) {
+    public init(_ inner: T? = nil) {
         self.inner = inner
     }
     

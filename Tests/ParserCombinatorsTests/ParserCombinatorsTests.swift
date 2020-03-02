@@ -44,26 +44,33 @@ final class ParserCombinatorsTests: XCTestCase {
         XCTAssertEqual(rep(const("A")).parseValue(from: "AAA"), ["A", "A", "A"])
     }
     
-    private struct Recursive: Alt, Seq {
+    fileprivate struct Recursive: Seq, Equatable {
         private let values: [String]
+        
+        fileprivate init(values: [String]) {
+            self.values = values
+        }
         
         static func from(_ left: String, _ right: Recursive) -> Recursive {
             return Recursive(values: [left] + right.values)
         }
-        
-        static func from(left: Recursive) -> Recursive {
-            return left
-        }
-        
-        static func from(right _: String) -> Recursive {
-            return Recursive(values: [])
-        }
     }
     
     func testRecursion() {
-        let parens = BoxParser()
-        parens.inner = alt(seq(const("("), parens.weakly, as: Recursive.self), const(""))
-            .map { $0.asLeft ?? $0.asRight!.map { _ in Recursive(values: []) } }
-        
+        let parens = BoxParser<
+            MapParser<
+                AltParser<
+                    SeqParser<ConstParser, AnyParser<Recursive>, Recursive>,
+                    ConstParser,
+                    SimpleAlt<Recursive, String>
+                >,
+                SimpleAlt<Recursive, String>,
+                Recursive
+            >
+        >()
+        parens.inner = alt(seq(const("("), parens.weakly.typeErased, as: Recursive.self), const(""))
+            .map { $0.asLeft ?? Recursive(values: []) }
+        XCTAssertNil(parens.parseValue(from: "(((a"))
+        XCTAssertEqual(parens.parseValue(from: "((("), Recursive(values: ["(", "(", "("]))
     }
 }
