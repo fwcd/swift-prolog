@@ -1,3 +1,5 @@
+/// A value that can be parsed from an
+/// optional.
 public protocol Opt {
     associatedtype Value
     
