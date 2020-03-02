@@ -7,7 +7,8 @@ final class ParserCombinatorsTests: XCTestCase {
         ("testAlt", testAlt),
         ("testOpt", testOpt),
         ("testRep", testRep),
-        ("testRep1", testRep1)
+        ("testRep1", testRep1),
+        ("testRecursion", testRecursion)
     ]
     
     func testConst() {
@@ -41,5 +42,28 @@ final class ParserCombinatorsTests: XCTestCase {
         XCTAssertNil(rep1(const("A")).parseValue(from: ""))
         XCTAssertEqual(rep(const("A")).parseValue(from: "A"), ["A"])
         XCTAssertEqual(rep(const("A")).parseValue(from: "AAA"), ["A", "A", "A"])
+    }
+    
+    private struct Recursive: Alt, Seq {
+        private let values: [String]
+        
+        static func from(_ left: String, _ right: Recursive) -> Recursive {
+            return Recursive(values: [left] + right.values)
+        }
+        
+        static func from(left: Recursive) -> Recursive {
+            return left
+        }
+        
+        static func from(right _: String) -> Recursive {
+            return Recursive(values: [])
+        }
+    }
+    
+    func testRecursion() {
+        let parens = BoxParser()
+        parens.inner = alt(seq(const("("), parens.weakly, as: Recursive.self), const(""))
+            .map { $0.asLeft ?? $0.asRight!.map { _ in Recursive(values: []) } }
+        
     }
 }
