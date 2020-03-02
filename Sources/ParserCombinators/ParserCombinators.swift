@@ -41,7 +41,7 @@ public func rep1<T>(_ inner: T) -> Rep1Parser<T> where T: Parser {
     return Rep1Parser(inner: inner)
 }
 
-/// A boxed and type-erased recursively parser.
+/// A parser that is constructed from a (type-erased) reference to "itself".
 public func recursive<T>(_ makeInner: (AnyParser<T.Value>) -> T) -> BoxParser<T> where T: Parser {
     let box = BoxParser<T>()
     box.inner = makeInner(box.weakly.typeErased)
