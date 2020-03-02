@@ -1,6 +1,9 @@
 public enum SimpleAlt<L, R>: Alt {
     case left(L)
     case right(R)
+
+    public typealias Left = L
+    public typealias Right = R
     
     public static func from(left: L) -> SimpleAlt<L, R> {
         return .left(left)

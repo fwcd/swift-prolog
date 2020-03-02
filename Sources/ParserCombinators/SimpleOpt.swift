@@ -1,6 +1,8 @@
 public struct SimpleOpt<T>: Opt {
     public let value: T?
     
+    public typealias Value = T
+    
     public static func from(_ value: T?) -> SimpleOpt<T> {
         return SimpleOpt(value: value)
     }
