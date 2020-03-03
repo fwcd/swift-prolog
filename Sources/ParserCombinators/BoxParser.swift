@@ -28,7 +28,7 @@ public class BoxParser<T>: Parser where T: Parser {
         }
     }
     
-    public init(_ inner: T? = nil) {
+    public init(inner: T? = nil) {
         self.inner = inner
     }
     

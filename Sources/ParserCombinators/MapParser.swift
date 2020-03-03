@@ -4,7 +4,7 @@ public struct MapParser<T, V, R>: Parser where T: Parser, V == T.Value {
     private let inner: T
     private let mapping: (V) -> R
     
-    public init(_ inner: T, mapping: @escaping (V) -> R) {
+    public init(inner: T, mapping: @escaping (V) -> R) {
         self.inner = inner
         self.mapping = mapping
     }
@@ -16,6 +16,6 @@ public struct MapParser<T, V, R>: Parser where T: Parser, V == T.Value {
 
 public extension Parser {
     func map<R>(_ mapping: @escaping (Value) -> R) -> MapParser<Self, Value, R> {
-        return MapParser(self, mapping: mapping)
+        return MapParser(inner: self, mapping: mapping)
     }
 }

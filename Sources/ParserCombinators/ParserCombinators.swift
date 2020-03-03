@@ -26,6 +26,7 @@ public func seq<L, R>(_ left: L, _ right: R) -> SeqParser<L, R, SimpleSeq<L.Valu
 public func opt<T, O>(_ inner: T, as: O.Type) -> OptParser<T, O> where T: Parser, O: Opt, O.Value == T.Value {
     return OptParser(inner: inner)
 }
+
 /// A parser for a value repeated zero or one times.
 public func opt<T>(_ inner: T) -> OptParser<T, SimpleOpt<T.Value>> where T: Parser {
     return OptParser(inner: inner)
@@ -56,6 +57,11 @@ public func recursive<T>(_ makeInner: (AnyParser<T.Value>) -> T) -> BoxParser<T>
     let box = BoxParser<T>()
     box.inner = makeInner(box.weakly.typeErased)
     return box
+}
+
+/// A parser that trims whitespace.
+public func trim<T>(_ inner: T) -> TrimParser<T> where T: Parser {
+    return TrimParser(inner: inner)
 }
 
 /// A parser for a regular expression.
