@@ -31,13 +31,23 @@ public func opt<T>(_ inner: T) -> OptParser<T, SimpleOpt<T.Value>> where T: Pars
     return OptParser(inner: inner)
 }
 
+/// A parser for a value repeated zero or more times with a custom type.
+public func rep<T, R>(_ inner: T, as: R.Type) -> RepParser<T, R> where T: Parser, R: Rep {
+    return RepParser(inner: inner)
+}
+
 /// A parser for a value repeated zero or more times.
-public func rep<T>(_ inner: T) -> RepParser<T> where T: Parser {
+public func rep<T>(_ inner: T) -> RepParser<T, SimpleRep<T.Value>> where T: Parser {
     return RepParser(inner: inner)
 }
 
 /// A parser for a value repeated one or more times.
-public func rep1<T>(_ inner: T) -> Rep1Parser<T> where T: Parser {
+public func rep1<T, R>(_ inner: T, as: R.Type) -> Rep1Parser<T, R> where T: Parser, R: Rep {
+    return Rep1Parser(inner: inner)
+}
+
+/// A parser for a value repeated one or more times.
+public func rep1<T>(_ inner: T) -> Rep1Parser<T, SimpleRep<T.Value>> where T: Parser {
     return Rep1Parser(inner: inner)
 }
 

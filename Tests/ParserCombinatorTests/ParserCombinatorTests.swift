@@ -32,16 +32,16 @@ final class ParserCombinatorTests: XCTestCase {
     }
     
     func testRep() {
-        XCTAssertEqual(rep(const("A")).parseValue(from: "AAAA"), ["A", "A", "A", "A"])
-        XCTAssertEqual(rep(const("A")).parseValue(from: ""), [])
-        XCTAssertEqual(rep(const("A")).parseValue(from: "A"), ["A"])
+        XCTAssertEqual(rep(const("A")).parseValue(from: "AAAA")?.values, ["A", "A", "A", "A"])
+        XCTAssertEqual(rep(const("A")).parseValue(from: "")?.values, [])
+        XCTAssertEqual(rep(const("A")).parseValue(from: "A")?.values, ["A"])
         XCTAssertNil(rep(const("A")).parseValue(from: "AAAAB"))
     }
     
     func testRep1() {
         XCTAssertNil(rep1(const("A")).parseValue(from: ""))
-        XCTAssertEqual(rep(const("A")).parseValue(from: "A"), ["A"])
-        XCTAssertEqual(rep(const("A")).parseValue(from: "AAA"), ["A", "A", "A"])
+        XCTAssertEqual(rep(const("A")).parseValue(from: "A")?.values, ["A"])
+        XCTAssertEqual(rep(const("A")).parseValue(from: "AAA")?.values, ["A", "A", "A"])
     }
     
     fileprivate struct Recursive: Seq, Equatable {
