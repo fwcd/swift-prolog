@@ -1,9 +1,9 @@
 import XCTest
 
-import ParserCombinatorsTests
-import PrologTests
+import ParserCombinatorTests
+import PrologSyntaxTests
 
 var tests = [XCTestCaseEntry]()
-tests += ParserCombinatorsTests.allTests()
-tests += PrologTests.allTests()
+tests += ParserCombinatorTests.allTests()
+tests += PrologSyntaxTests.allTests()
 XCTMain(tests)

@@ -1,7 +1,7 @@
 import XCTest
 @testable import ParserCombinators
 
-final class ParserCombinatorsTests: XCTestCase {
+final class ParserCombinatorTests: XCTestCase {
     static var allTests = [
         ("testConst", testConst),
         ("testAlt", testAlt),
