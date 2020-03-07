@@ -22,6 +22,18 @@ public func seq<L, R>(_ left: L, _ right: R) -> SeqParser<L, R, SimpleSeq<L.Valu
     return SeqParser(left: left, right: right)
 }
 
+/// A parser for a sequence fetching the first value.
+public func seqLeft<L, R>(_ left: L, _ right: R) -> MapParser<SeqParser<L, R, SimpleSeq<L.Value, R.Value>>, SimpleSeq<L.Value, R.Value>, L.Value> where L: Parser, R: Parser {
+    return SeqParser(left: left, right: right)
+        .map { $0.left }
+}
+
+/// A parser for a sequence fetching the second value.
+public func seqRight<L, R>(_ left: L, _ right: R) -> MapParser<SeqParser<L, R, SimpleSeq<L.Value, R.Value>>, SimpleSeq<L.Value, R.Value>, R.Value> where L: Parser, R: Parser {
+    return SeqParser(left: left, right: right)
+        .map { $0.right }
+}
+
 /// A parser for a value repeated zero or one times with a custom type.
 public func opt<T, O>(_ inner: T, as: O.Type) -> OptParser<T, O> where T: Parser, O: Opt, O.Value == T.Value {
     return OptParser(inner: inner)
@@ -55,6 +67,11 @@ public func rep1<T>(_ inner: T) -> Rep1Parser<T, SimpleList<T.Value>> where T: P
 /// A parser for a value separated by something zero or more times.
 public func sep<T, S>(_ inner: T, by separator: S) -> SepParser<T, S, SimpleList<T.Value>> where T: Parser, S: Parser {
     return SepParser(inner: inner, separator: separator)
+}
+
+/// Parses zero or more whitespace characters.
+public func whitespace() -> RegexParser {
+    return try! RegexParser(pattern: "\\s*")
 }
 
 /// A parser that is constructed from a (type-erased) reference to "itself".

@@ -6,6 +6,7 @@ final class ParserCombinatorTests: XCTestCase {
         ("testConst", testConst),
         ("testAlt", testAlt),
         ("testOpt", testOpt),
+        ("testSeq", testSeq),
         ("testRep", testRep),
         ("testRep1", testRep1),
         ("testSep", testSep),
@@ -17,6 +18,7 @@ final class ParserCombinatorTests: XCTestCase {
         XCTAssertEqual(l, "T")
         XCTAssertEqual(s, "est")
         XCTAssertNil(const("Demo").parse(from: "abc"))
+        XCTAssertNil(const("12").parseValue(from: "12  "))
     }
 
     func testAlt() {
@@ -30,6 +32,12 @@ final class ParserCombinatorTests: XCTestCase {
         XCTAssertNil(opt(const("abc")).parseValue(from: "abcdef"))
         XCTAssertNil(opt(const("abc")).parseValue(from: "defabc"))
         XCTAssertEqual(opt(const("abc")).parseValue(from: "abc"), SimpleOpt.from("abc"))
+    }
+    
+    func testSeq() {
+        XCTAssertEqual(seq(const("abc"), const("def")).parseValue(from: "abcdef"), SimpleSeq.from("abc", "def"))
+        XCTAssertEqual(seqRight(const("12"), const("34")).parseValue(from: "1234"), "34")
+        XCTAssertEqual(seqLeft(const("12"), whitespace()).parseValue(from: "12  "), "12")
     }
     
     func testRep() {
