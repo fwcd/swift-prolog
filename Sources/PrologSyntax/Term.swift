@@ -9,11 +9,13 @@ public enum Term: Alt, Hashable {
         try! regex("[A-Z]+"),
         seq(
             try! regex("[a-z]+"),
-            seqCenter(
-                trim(const("(")),
-                sep($0, by: trim(const(","))),
-                trim(const(")"))
-            )
+            opt(
+                seqCenter(
+                    trim(const("(")),
+                    sep($0, by: trim(const(","))),
+                    trim(const(")"))
+                )
+            ).map { $0.value?.values ?? [] }
         ),
         as: Term.self
     ) }
@@ -22,7 +24,7 @@ public enum Term: Alt, Hashable {
         return .variable(left)
     }
 
-    public static func from(right: SimpleSeq<String, SimpleList<Term>>) -> Term {
-        return .combinator(right.left, right.right.values)
+    public static func from(right: SimpleSeq<String, [Term]>) -> Term {
+        return .combinator(right.left, right.right)
     }
 }
