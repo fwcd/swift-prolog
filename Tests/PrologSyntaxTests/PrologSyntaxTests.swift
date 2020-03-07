@@ -3,9 +3,11 @@ import XCTest
 
 final class PrologSyntaxTests: XCTestCase {
     static var allTests = [
-        ("testExample", testExample),
+        ("termTermParser", testTermParser),
     ]
 
-    private func testExample() {
+    func testTermParser() {
+        let term = Term.parser.parseValue(from: "test(A, B)")
+        XCTAssertEqual(term, .combinator("test", [.variable("A"), .variable("B")]))
     }
 }

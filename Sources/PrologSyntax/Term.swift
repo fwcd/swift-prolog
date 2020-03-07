@@ -1,7 +1,7 @@
 import ParserCombinators
 
 /// A term is a Prolog expression.
-public enum Term: Alt {
+public enum Term: Alt, Hashable {
     case variable(String)
     case combinator(String, [Term])
     
