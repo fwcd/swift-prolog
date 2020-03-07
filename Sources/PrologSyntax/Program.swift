@@ -3,10 +3,10 @@ import ParserCombinators
 /// A Prolog program, representing a
 /// "database" of knowledge (more formally:
 /// relations).
-public struct Program: List, Hashable, CustomStringConvertible {
+public struct Program: List, Hashable, PrettyStringConvertible {
     public let rules: [Rule]
-    public var description: String {
-        return rules.map { "\($0)" }.joined(separator: "\n")
+    public var pretty: String {
+        return rules.map { $0.pretty }.joined(separator: "\n")
     }
     
     public static let parser = sep(

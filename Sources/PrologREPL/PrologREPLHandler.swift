@@ -26,6 +26,9 @@ public class PrologREPLHandler {
             } else {
                 print("Unrecognized command '\(rawCommand)'")
             }
+        } else {
+            let parsed = Goal.parser.parseValue(from: input)
+            print("Parsed \(parsed.map { "\($0)" } ?? "nil")")
         }
     }
     

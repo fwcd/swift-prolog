@@ -1,11 +1,11 @@
 import ParserCombinators
 
 /// A term is a Prolog expression.
-public enum Term: Alt, Hashable, CustomStringConvertible {
+public enum Term: Alt, Hashable, PrettyStringConvertible {
     case variable(String)
     case combinator(String, [Term])
     
-    public var description: String {
+    public var pretty: String {
         switch self {
             case let .variable(v):
                 return v
@@ -13,7 +13,7 @@ public enum Term: Alt, Hashable, CustomStringConvertible {
                 if terms.isEmpty {
                     return name
                 } else {
-                    return "\(name)(\(terms.map { "\($0)" }.joined(separator: ", ")))."
+                    return "\(name)(\(terms.map { "\($0)" }.joined(separator: ", ")))"
                 }
         }
     }

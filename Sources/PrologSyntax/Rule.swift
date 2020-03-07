@@ -5,10 +5,10 @@ import ParserCombinators
 /// knowledge. The left-hand side contains the
 /// term to be true under the assumption that the
 /// terms on the right-hand side are all true.
-public struct Rule: Seq, Hashable, CustomStringConvertible {
+public struct Rule: Seq, Hashable, PrettyStringConvertible {
     public let lhs: Term
     public let rhs: [Term]
-    public var description: String {
+    public var pretty: String {
         if rhs.isEmpty {
             return "\(lhs)."
         } else {
