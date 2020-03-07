@@ -13,7 +13,7 @@ public enum Term: Alt, Hashable, PrettyStringConvertible {
                 if terms.isEmpty {
                     return name
                 } else {
-                    return "\(name)(\(terms.map { "\($0)" }.joined(separator: ", ")))"
+                    return "\(name)(\(terms.map { $0.pretty }.joined(separator: ", ")))"
                 }
         }
     }

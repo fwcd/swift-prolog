@@ -10,9 +10,9 @@ public struct Rule: Seq, Hashable, PrettyStringConvertible {
     public let rhs: [Term]
     public var pretty: String {
         if rhs.isEmpty {
-            return "\(lhs)."
+            return "\(lhs.pretty)."
         } else {
-            return "\(lhs) :- \(rhs.map { "\($0)" }.joined(separator: ", "))."
+            return "\(lhs.pretty) :- \(rhs.map { $0.pretty }.joined(separator: ", "))."
         }
     }
     
