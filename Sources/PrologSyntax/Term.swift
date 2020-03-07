@@ -41,13 +41,13 @@ public enum Term: Alt, Hashable, CustomStringConvertible {
         return .combinator(right.left, right.right)
     }
     
-    /// Substitutes all occurrences of a variable name in this term by another.
-    public func substituting(_ name: String, by term: Term) -> Term {
+    /// Substitutes all occurrences of a variable name in this term with another.
+    public func substituting(_ name: String, with term: Term) -> Term {
         switch self {
-            case let .variable(varName):
-                return name == varName ? term : self
-            case let .combinator(name, terms):
-                return .combinator(name, terms.map { $0.substituting(name, by: term) })
+            case let .variable(n):
+                return name == n ? term : self
+            case let .combinator(n, ts):
+                return .combinator(n, ts.map { $0.substituting(name, with: term) })
         }
     }
 }

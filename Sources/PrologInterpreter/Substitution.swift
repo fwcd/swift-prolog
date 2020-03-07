@@ -17,7 +17,7 @@ public struct Substitution: Equatable, CustomStringConvertible {
     
     /// Applies the substitution to the given term and returns the result.
     public func applied(to term: Term) -> Term {
-        return mappings.reduce(term) { res, m in res.substituting(m.0, by: m.1) }
+        return mappings.reduce(term) { res, m in res.substituting(m.0, with: m.1) }
     }
     
     /// Composes two substitutions.
