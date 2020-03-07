@@ -48,5 +48,12 @@ final class PrologSyntaxTests: XCTestCase {
                 ])
             ])
         )
+        XCTAssertEqual(
+            Goal.parser.parseValue(from: "A, demo."),
+            Goal(terms: [
+                .variable("A"),
+                .combinator("demo", [])
+            ])
+        )
     }
 }
