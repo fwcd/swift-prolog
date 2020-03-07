@@ -7,6 +7,8 @@ public struct Substitution: Equatable, CustomStringConvertible {
         return "{\(mappings.map { (n, t) in "\(n) -> \(t)" }.joined(separator: ", "))}"
     }
     
+    public static let empty = Substitution([])
+    
     public init(_ mappings: [(String, Term)]) {
         self.mappings = mappings
     }
