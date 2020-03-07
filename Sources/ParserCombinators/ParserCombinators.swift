@@ -98,6 +98,11 @@ public func whitespace() -> RegexParser {
     return try! RegexParser(pattern: "\\s*")
 }
 
+/// Parses zero or more newlines.
+public func newlines() -> RegexParser {
+    return try! RegexParser(pattern: "\\n*")
+}
+
 /// A parser that is constructed from a (type-erased) reference to "itself".
 public func recursive<T>(_ makeInner: (AnyParser<T.Value>) -> T) -> BoxParser<T> where T: Parser {
     let box = BoxParser<T>()

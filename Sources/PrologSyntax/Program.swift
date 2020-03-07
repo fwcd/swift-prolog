@@ -6,6 +6,14 @@ import ParserCombinators
 public struct Program: List, Hashable {
     public let rules: [Rule]
     
+    public static let parser = sep(
+        alt(
+            trim(Rule.parser),
+            try! regex("%.*")
+        ),
+        by: newlines()
+    ).map { Program(rules: $0.values.compactMap { $0.asLeft }) }
+    
     public init(rules: [Rule]) {
         self.rules = rules
     }
