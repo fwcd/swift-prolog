@@ -34,6 +34,25 @@ public func seqRight<L, R>(_ left: L, _ right: R) -> MapParser<SeqParser<L, R, S
         .map { $0.right }
 }
 
+/// A parser for a sequence fetching the middle value.
+public func seqCenter<L, C, R>(_ left: L, _ center: C, _ right: R) -> MapParser<
+    MapParser<
+        SeqParser<
+            L,
+            SeqParser<C, R, SimpleSeq<C.Value, R.Value>>,
+            SimpleSeq<L.Value, SimpleSeq<C.Value, R.Value>>
+        >,
+        SimpleSeq<L.Value, SimpleSeq<C.Value, R.Value>>,
+        SimpleSeq<C.Value, R.Value>
+    >,
+    SimpleSeq<C.Value, R.Value>,
+    C.Value
+> where L: Parser, C: Parser, R: Parser {
+    return SeqParser(left: left, right: SeqParser(left: center, right: right))
+        .map { $0.right }
+        .map { $0.left }
+}
+
 /// A parser for a value repeated zero or one times with a custom type.
 public func opt<T, O>(_ inner: T, as: O.Type) -> OptParser<T, O> where T: Parser, O: Opt, O.Value == T.Value {
     return OptParser(inner: inner)

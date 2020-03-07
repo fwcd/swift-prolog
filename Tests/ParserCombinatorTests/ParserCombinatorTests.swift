@@ -38,6 +38,7 @@ final class ParserCombinatorTests: XCTestCase {
         XCTAssertEqual(seq(const("abc"), const("def")).parseValue(from: "abcdef"), SimpleSeq.from("abc", "def"))
         XCTAssertEqual(seqRight(const("12"), const("34")).parseValue(from: "1234"), "34")
         XCTAssertEqual(seqLeft(const("12"), whitespace()).parseValue(from: "12  "), "12")
+        XCTAssertEqual(seqCenter(const("("), try! regex("[^)]+"), const(")")).parseValue(from: "(test)"), "test")
     }
     
     func testRep() {
