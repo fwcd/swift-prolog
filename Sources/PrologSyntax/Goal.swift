@@ -2,10 +2,10 @@ import ParserCombinators
 
 /// A goal represents a Prolog query and
 /// is a conjunction of multiple terms.
-public struct Goal: List, Hashable, PrettyStringConvertible {
+public struct Goal: List, Hashable, CustomStringConvertible {
     public let terms: [Term]
-    public var pretty: String {
-        return "\(terms.map { $0.pretty }.joined(separator: ", "))."
+    public var description: String {
+        return "\(terms.map { "\($0)" }.joined(separator: ", "))."
     }
     
     public static let parser = seqLeft(

@@ -1,10 +1,10 @@
 import PrologSyntax
 
 /// A substitution table of variable names to terms.
-public struct Substitution: Equatable, PrettyStringConvertible {
+public struct Substitution: Equatable, CustomStringConvertible {
     private let mappings: [(String, Term)]
-    public var pretty: String {
-        return "{\(mappings.map { (n, t) in "\(n) -> \(t.pretty)" }.joined(separator: ", "))}"
+    public var description: String {
+        return "{\(mappings.map { (n, t) in "\(n) -> \(t)" }.joined(separator: ", "))}"
     }
     
     public init(_ mappings: [(String, Term)]) {

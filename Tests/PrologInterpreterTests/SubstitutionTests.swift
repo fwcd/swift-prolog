@@ -31,7 +31,7 @@ final class SubstitutionTests: XCTestCase {
             ("A", .variable("B")),
             ("C", .combinator("d", [.variable("A")]))
         ])
-        XCTAssertEqual(s3.pretty, "{A -> B, C -> d(A)}")
+        XCTAssertEqual("\(s3)", "{A -> B, C -> d(A)}")
     }
     
     func testComposition() {
