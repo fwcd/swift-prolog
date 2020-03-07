@@ -42,12 +42,12 @@ public enum Term: Alt, Hashable, PrettyStringConvertible {
     }
     
     /// Substitutes all occurrences of a variable name in this term by another.
-    public func substituted(_ name: String, by term: Term) -> Term {
+    public func substituting(_ name: String, by term: Term) -> Term {
         switch self {
             case let .variable(varName):
                 return name == varName ? term : self
             case let .combinator(name, terms):
-                return .combinator(name, terms.map { $0.substituted(name, by: term) })
+                return .combinator(name, terms.map { $0.substituting(name, by: term) })
         }
     }
 }
