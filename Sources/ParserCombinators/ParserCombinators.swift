@@ -100,7 +100,7 @@ public func whitespace() -> RegexParser {
 
 /// Parses zero or more newlines.
 public func newlines() -> RegexParser {
-    return try! RegexParser(pattern: "\\n*")
+    return try! RegexParser(pattern: "\n*")
 }
 
 /// A parser that is constructed from a (type-erased) reference to "itself".
