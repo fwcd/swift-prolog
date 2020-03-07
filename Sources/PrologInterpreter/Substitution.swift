@@ -30,6 +30,8 @@ public struct Substitution: Equatable, CustomStringConvertible {
     }
     
     public static func ==(lhs: Substitution, rhs: Substitution) -> Bool {
-        return zip(lhs.mappings, rhs.mappings).allSatisfy { $0.0.0 == $0.1.0 && $0.0.1 == $0.1.1 }
+        return lhs.mappings.count == rhs.mappings.count
+            && zip(lhs.mappings, rhs.mappings)
+                .allSatisfy { $0.0.0 == $0.1.0 && $0.0.1 == $0.1.1 }
     }
 }

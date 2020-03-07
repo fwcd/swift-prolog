@@ -2,7 +2,7 @@ import XCTest
 @testable import PrologSyntax
 
 final class PrologSyntaxTests: XCTestCase {
-    static var allTests = [
+    static let allTests = [
         ("testTermParser", testTermParser),
         ("testTermSubstitutions", testTermSubstitutions),
         ("testGoalParser", testGoalParser)

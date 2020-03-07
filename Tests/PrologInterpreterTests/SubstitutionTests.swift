@@ -2,7 +2,7 @@ import XCTest
 @testable import PrologInterpreter
 
 final class SubstitutionTests: XCTestCase {
-    static var allTests = [
+    static let allTests = [
         ("testSubstitution", testSubstitution),
         ("testComposition", testComposition)
     ]
