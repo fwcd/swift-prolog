@@ -33,23 +33,28 @@ public func opt<T>(_ inner: T) -> OptParser<T, SimpleOpt<T.Value>> where T: Pars
 }
 
 /// A parser for a value repeated zero or more times with a custom type.
-public func rep<T, R>(_ inner: T, as: R.Type) -> RepParser<T, R> where T: Parser, R: Rep {
+public func rep<T, L>(_ inner: T, as: L.Type) -> RepParser<T, L> where T: Parser, L: List {
     return RepParser(inner: inner)
 }
 
 /// A parser for a value repeated zero or more times.
-public func rep<T>(_ inner: T) -> RepParser<T, SimpleRep<T.Value>> where T: Parser {
+public func rep<T>(_ inner: T) -> RepParser<T, SimpleList<T.Value>> where T: Parser {
     return RepParser(inner: inner)
 }
 
 /// A parser for a value repeated one or more times.
-public func rep1<T, R>(_ inner: T, as: R.Type) -> Rep1Parser<T, R> where T: Parser, R: Rep {
+public func rep1<T, L>(_ inner: T, as: L.Type) -> Rep1Parser<T, L> where T: Parser, L: List {
     return Rep1Parser(inner: inner)
 }
 
 /// A parser for a value repeated one or more times.
-public func rep1<T>(_ inner: T) -> Rep1Parser<T, SimpleRep<T.Value>> where T: Parser {
+public func rep1<T>(_ inner: T) -> Rep1Parser<T, SimpleList<T.Value>> where T: Parser {
     return Rep1Parser(inner: inner)
+}
+
+/// A parser for a value separated by something zero or more times.
+public func sep<T, S>(_ inner: T, by separator: S) -> SepParser<T, S, SimpleList<T.Value>> where T: Parser, S: Parser {
+    return SepParser(inner: inner, separator: separator)
 }
 
 /// A parser that is constructed from a (type-erased) reference to "itself".

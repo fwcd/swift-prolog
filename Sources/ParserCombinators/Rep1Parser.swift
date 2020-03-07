@@ -1,12 +1,12 @@
 /// Parses a value one or more times.
-public struct Rep1Parser<T, R>: Parser where T: Parser, R: Rep, R.Value == T.Value {
+public struct Rep1Parser<T, L>: Parser where T: Parser, L: List, L.Value == T.Value {
     private let inner: T
     
     public init(inner: T) {
         self.inner = inner
     }
     
-    public func parse(from raw: String) -> (R, String)? {
+    public func parse(from raw: String) -> (L, String)? {
         guard let (first, s) = inner.parse(from: raw) else { return nil }
         var values = [first]
         var remaining = s
@@ -14,6 +14,6 @@ public struct Rep1Parser<T, R>: Parser where T: Parser, R: Rep, R.Value == T.Val
             values.append(v)
             remaining = s
         }
-        return (R.from(values), remaining)
+        return (L.from(values), remaining)
     }
 }

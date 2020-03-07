@@ -8,6 +8,7 @@ final class ParserCombinatorTests: XCTestCase {
         ("testOpt", testOpt),
         ("testRep", testRep),
         ("testRep1", testRep1),
+        ("testSep", testSep),
         ("testRecursion", testRecursion)
     ]
     
@@ -42,6 +43,14 @@ final class ParserCombinatorTests: XCTestCase {
         XCTAssertNil(rep1(const("A")).parseValue(from: ""))
         XCTAssertEqual(rep(const("A")).parseValue(from: "A")?.values, ["A"])
         XCTAssertEqual(rep(const("A")).parseValue(from: "AAA")?.values, ["A", "A", "A"])
+    }
+    
+    func testSep() {
+        let parser = sep(const("123"), by: const(","))
+        XCTAssertEqual(parser.parseValue(from: "")?.values, [])
+        XCTAssertEqual(parser.parseValue(from: "123")?.values, ["123"])
+        XCTAssertEqual(parser.parseValue(from: "123,123,123")?.values, ["123", "123", "123"])
+        XCTAssertNil(parser.parseValue(from: "123, 123"))
     }
     
     fileprivate struct Recursive: Seq, Equatable {
