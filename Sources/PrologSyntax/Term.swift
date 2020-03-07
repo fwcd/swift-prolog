@@ -7,8 +7,8 @@ public enum Term: Alt, Hashable, PrettyStringConvertible {
     
     public var pretty: String {
         switch self {
-            case let .variable(v):
-                return v
+            case let .variable(name):
+                return name
             case let .combinator(name, terms):
                 if terms.isEmpty {
                     return name
@@ -39,5 +39,15 @@ public enum Term: Alt, Hashable, PrettyStringConvertible {
 
     public static func from(right: SimpleSeq<String, [Term]>) -> Term {
         return .combinator(right.left, right.right)
+    }
+    
+    /// Substitutes all occurrences of a variable name in this term by another.
+    public func substituted(_ name: String, by term: Term) -> Term {
+        switch self {
+            case let .variable(varName):
+                return name == varName ? term : self
+            case let .combinator(name, terms):
+                return .combinator(name, terms.map { $0.substituted(name, by: term) })
+        }
     }
 }
