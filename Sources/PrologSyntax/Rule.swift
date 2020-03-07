@@ -6,4 +6,9 @@
 public struct Rule: Hashable {
     public let lhs: Term
     public let rhs: [Term]
+    
+    public init(lhs: Term, rhs: [Term]) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
 }

@@ -73,7 +73,7 @@ public func rep<T>(_ inner: T) -> RepParser<T, SimpleList<T.Value>> where T: Par
     return RepParser(inner: inner)
 }
 
-/// A parser for a value repeated one or more times.
+/// A parser for a value repeated one or more times with a custom type.
 public func rep1<T, L>(_ inner: T, as: L.Type) -> Rep1Parser<T, L> where T: Parser, L: List {
     return Rep1Parser(inner: inner)
 }
@@ -81,6 +81,11 @@ public func rep1<T, L>(_ inner: T, as: L.Type) -> Rep1Parser<T, L> where T: Pars
 /// A parser for a value repeated one or more times.
 public func rep1<T>(_ inner: T) -> Rep1Parser<T, SimpleList<T.Value>> where T: Parser {
     return Rep1Parser(inner: inner)
+}
+
+/// A parser for a value separated by something zero or more times with a custom type.
+public func sep<T, S, L>(_ inner: T, by separator: S, as: L.Type) -> SepParser<T, S, L> where T: Parser, S: Parser, L: List, T.Value == L.Value {
+    return SepParser(inner: inner, separator: separator)
 }
 
 /// A parser for a value separated by something zero or more times.

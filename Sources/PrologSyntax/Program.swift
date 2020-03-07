@@ -6,6 +6,10 @@ import ParserCombinators
 public struct Program: List, Hashable {
     public let rules: [Rule]
     
+    public init(rules: [Rule]) {
+        self.rules = rules
+    }
+    
     public static func from(_ rules: [Rule]) -> Program {
         return Program(rules: rules)
     }

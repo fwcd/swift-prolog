@@ -4,6 +4,7 @@ import XCTest
 final class PrologSyntaxTests: XCTestCase {
     static var allTests = [
         ("termTermParser", testTermParser),
+        ("testGoalParser", testGoalParser)
     ]
 
     func testTermParser() {
@@ -29,6 +30,22 @@ final class PrologSyntaxTests: XCTestCase {
                 .combinator("s", [.variable("X")]),
                 .variable("Y"),
                 .combinator("s", [.variable("Z")])
+            ])
+        )
+    }
+    
+    func testGoalParser() {
+        XCTAssertEqual(
+            Goal.parser.parseValue(from: "."),
+            Goal(terms: [])
+        )
+        XCTAssertEqual(
+            Goal.parser.parseValue(from: "test(A, B)."),
+            Goal(terms: [
+                .combinator("test", [
+                    .variable("A"),
+                    .variable("B")
+                ])
             ])
         )
     }
