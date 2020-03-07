@@ -7,7 +7,17 @@ final class PrologSyntaxTests: XCTestCase {
     ]
 
     func testTermParser() {
-        let term = Term.parser.parseValue(from: "test(A, B)")
-        XCTAssertEqual(term, .combinator("test", [.variable("A"), .variable("B")]))
+        XCTAssertEqual(
+            Term.parser.parseValue(from: "A"),
+            .variable("A")
+        )
+        XCTAssertEqual(
+            Term.parser.parseValue(from: "test()"),
+            .combinator("test", [])
+        )
+        XCTAssertEqual(
+            Term.parser.parseValue(from: "test(A, B)"),
+            .combinator("test", [.variable("A"), .variable("B")])
+        )
     }
 }

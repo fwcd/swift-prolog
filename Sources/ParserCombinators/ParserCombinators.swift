@@ -100,9 +100,21 @@ public func recursive<T>(_ makeInner: (AnyParser<T.Value>) -> T) -> BoxParser<T>
     return box
 }
 
-/// A parser that trims whitespace.
-public func trim<T>(_ inner: T) -> TrimParser<T> where T: Parser {
-    return TrimParser(inner: inner)
+/// A parser that consumes and ignores whitespace around the "inner" value.
+public func trim<T>(_ inner: T) -> MapParser<
+    MapParser<
+        SeqParser<
+            RegexParser,
+            SeqParser<T, RegexParser, SimpleSeq<T.Value, String>>,
+            SimpleSeq<String, SimpleSeq<T.Value, String>>
+        >,
+        SimpleSeq<String, SimpleSeq<T.Value, String>>,
+        SimpleSeq<T.Value, String>
+    >,
+    SimpleSeq<T.Value, String>,
+    T.Value
+> where T: Parser {
+    return seqCenter(whitespace(), inner, whitespace())
 }
 
 /// A parser for a regular expression.
