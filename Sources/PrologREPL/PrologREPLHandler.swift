@@ -2,23 +2,26 @@ import PrologSyntax
 import PrologUtils
 
 public class PrologREPLHandler {
+    private let commandPrefix: String
     private var loadedFilePath: String? = nil
     private var loadedProgram: Program? = nil
 
     private var commands: [String: (String) throws -> Void]!
     
-    public init() {
+    public init(commandPrefix: String = ":") {
+        self.commandPrefix = commandPrefix
         commands = [
             "q": { _ in throw PrologREPLError.quit },
             "l": { [unowned self] in self.load(filePath: $0) },
-            "r": { [unowned self] _ in self.reload() }
+            "r": { [unowned self] _ in self.reload() },
+            "h": { [unowned self] _ in print("Available commands:\n\(self.commands.keys.map { "\(commandPrefix)\($0)" }.joined(separator: ", "))") }
         ]
     }
     
     /// Handles an invocation.
     public func handle(input: String) throws {
-        if input.starts(with: ":") {
-            let invocation = input.dropFirst().split(separator: " ", maxSplits: 2).map { String($0) }
+        if input.starts(with: commandPrefix) {
+            let invocation = input.dropFirst(commandPrefix.count).split(separator: " ", maxSplits: 2).map { String($0) }
             let rawCommand = invocation[safely: 0] ?? ""
             let rawArgs = invocation[safely: 1] ?? ""
             if let command = commands[rawCommand] {
