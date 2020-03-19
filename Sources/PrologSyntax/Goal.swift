@@ -8,6 +8,8 @@ public struct Goal: List, Hashable, CustomStringConvertible {
         return "\(terms.map { "\($0)" }.joined(separator: ", "))."
     }
     
+    public var isEmpty: Bool { return terms.isEmpty }
+    
     public static let parser = seqLeft(
         sep(Term.parser, by: trim(const(",")), as: Goal.self),
         trim(const("."))

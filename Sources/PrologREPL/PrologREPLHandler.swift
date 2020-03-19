@@ -34,7 +34,7 @@ public class PrologREPLHandler {
         } else {
             if let parsed = Goal.parser.parseValue(from: input) {
                 if let program = loadedProgram {
-                    print(SLDTree(resolving: parsed, in: program))
+                    print(DepthFirstSearch().traverse(tree: SLDTree(resolving: parsed, in: program)).map { "\($0)" }.joined(separator: "\n"))
                 } else {
                     print("Parsed \(parsed)")
                 }
