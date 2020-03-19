@@ -1,4 +1,5 @@
 import Foundation
+import PrologInterpreter
 import PrologSyntax
 import PrologUtils
 
@@ -31,8 +32,15 @@ public class PrologREPLHandler {
                 print("Unrecognized command '\(rawCommand)'")
             }
         } else {
-            let parsed = Goal.parser.parseValue(from: input)
-            print("Parsed \(parsed.map { "\($0)" } ?? "nil")")
+            if let parsed = Goal.parser.parseValue(from: input) {
+                if let program = loadedProgram {
+                    print(SLDTree(resolving: parsed, in: program))
+                } else {
+                    print("Parsed \(parsed)")
+                }
+            } else {
+                print("Could not parse goal")
+            }
         }
     }
     
@@ -42,7 +50,11 @@ public class PrologREPLHandler {
             guard let rawData = FileManager.default.contents(atPath: filePath) else { throw PrologREPLError.couldNotReadFile }
             guard let raw = String(data: rawData, encoding: .utf8) else { throw PrologREPLError.couldNotDecodeFile }
             guard let program = Program.parser.parseValue(from: raw) else { throw PrologREPLError.couldNotParseFile }
-            print("Successfully loaded \(program.rules.count) \("rule".pluralize(with: program.rules.count))")
+
+            loadedFilePath = filePath
+            loadedProgram = program
+
+            print("Successfully loaded \(program.rules.count) \("rule".pluralized(with: program.rules.count))")
         } catch {
             print("Could not load file: \(error)")
         }
