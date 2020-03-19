@@ -18,6 +18,15 @@ public enum Term: Alt, Hashable, CustomStringConvertible {
         }
     }
     
+    public var allVariableNames: [String] {
+        switch self {
+            case let .variable(name):
+                return [name]
+            case let .combinator(_, terms):
+                return terms.flatMap { $0.allVariableNames }
+        }
+    }
+    
     public static let parser = recursive { alt(
         try! regex("[A-Z]+"),
         seq(
