@@ -22,6 +22,11 @@ public struct Substitution: Equatable, CustomStringConvertible {
         return mappings.reduce(term) { res, m in res.substituting(m.0, with: m.1) }
     }
     
+    /// Applies the substitution to all terms in a goal.
+    public func applied(to goal: Goal) -> Goal {
+        return Goal(terms: goal.terms.map { applied(to: $0) })
+    }
+    
     /// Composes two substitutions.
     public func composed(with first: Substitution) -> Substitution {
         let chainedMappings = first.mappings.map { ($0.0, applied(to: $0.1)) }
