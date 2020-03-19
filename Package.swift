@@ -29,7 +29,7 @@ let package = Package(
         ),
         .target(
             name: "PrologInterpreter",
-            dependencies: ["PrologSyntax"]
+            dependencies: ["PrologSyntax", "PrologUtils"]
         ),
         .target(
             name: "PrologSyntax",
