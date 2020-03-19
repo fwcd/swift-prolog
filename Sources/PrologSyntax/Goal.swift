@@ -9,6 +9,7 @@ public struct Goal: List, Hashable, CustomStringConvertible {
     }
     
     public var isEmpty: Bool { return terms.isEmpty }
+    public var allVariableNames: [String] { return terms.flatMap { $0.allVariableNames } }
     
     public static let parser = seqLeft(
         sep(Term.parser, by: trim(const(",")), as: Goal.self),

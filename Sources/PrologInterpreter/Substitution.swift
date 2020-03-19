@@ -41,7 +41,7 @@ public struct Substitution: Equatable, CustomStringConvertible {
     }
     
     /// Restricts the substitution's mappings to those contained in the given list of variable names.
-    public func restrictedTo(varNames: [String]) -> Substitution {
+    public func restricted(to varNames: [String]) -> Substitution {
         return Substitution(mappings.filter { varNames.contains($0.0) })
     }
 }
