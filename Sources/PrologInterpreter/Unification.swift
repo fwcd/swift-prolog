@@ -28,6 +28,8 @@ public extension Term {
         guard let ds = disagreementSet(with: rhs) else { return Substitution.empty }
         let s1: Substitution
         switch ds {
+            case (let .variable(n1), let .variable(n2)):
+                s1 = Substitution(n1, to: .variable(n2))
             case (let .variable(n1), let .combinator(n2, ts2)):
                 s1 = Substitution(n1, to: .combinator(n2, ts2))
             case (let .combinator(n1, ts1), let .variable(n2)):

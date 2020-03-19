@@ -2,7 +2,7 @@ import PrologSyntax
 
 extension Rule {
     public func renamingVariables(used: inout Set<String>) -> Rule {
-        var i = 0
+        var i = 1
         return Rule(lhs: lhs.renamingVariables(used: &used, i: &i), rhs: rhs.map { $0.renamingVariables(used: &used, i: &i) })
     }
 }
