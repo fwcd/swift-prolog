@@ -16,6 +16,10 @@ public struct Rule: Seq, Hashable, CustomStringConvertible {
         }
     }
     
+    public var allVariableNames: [String] {
+        return lhs.allVariableNames + rhs.flatMap { $0.allVariableNames }
+    }
+    
     public static let parser = seqLeft(
         seq(
             Term.parser,

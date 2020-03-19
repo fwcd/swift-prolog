@@ -20,9 +20,9 @@ public struct SLDTree: CustomStringConvertible {
     public init(resolving goal: Goal, in program: Program, used: inout Set<String>) {
         self.goal = goal
         if let term = goal.terms.first {
-            childs = program.rules.compactMap { rule in
-                term.unification(with: rule.renamingVariables(used: &used).lhs)
-                    .map { ($0, SLDTree(resolving: $0.applied(to: Goal(terms: rule.rhs + goal.terms.dropFirst())), in: program)) }
+            childs = program.rules.map { $0.renamingVariables(used: &used) }.compactMap { rule in
+                term.unification(with: rule.lhs)
+                    .map { ($0, SLDTree(resolving: $0.applied(to: Goal(terms: rule.rhs + goal.terms.dropFirst())), in: program, used: &used)) }
             }
         } else {
             childs = []

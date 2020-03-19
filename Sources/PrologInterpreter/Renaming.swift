@@ -3,7 +3,9 @@ import PrologSyntax
 extension Rule {
     public func renamingVariables(used: inout Set<String>) -> Rule {
         var i = 1
-        return Rule(lhs: lhs.renamingVariables(used: &used, i: &i), rhs: rhs.map { $0.renamingVariables(used: &used, i: &i) })
+        let varNames = allVariableNames
+        let subst = Substitution(Array(zip(varNames, varNames.map { Term.variable($0.renaming(used: &used, i: &i)) })))
+        return Rule(lhs: subst.renamingApplied(to: lhs, used: &used, i: &i), rhs: rhs.map { subst.renamingApplied(to: $0, used: &used, i: &i) })
     }
 }
 
@@ -14,15 +16,6 @@ extension Substitution {
 }
 
 extension Term {
-    fileprivate func renamingVariables(used: inout Set<String>, i: inout Int) -> Term {
-        switch self {
-            case let .variable(name):
-                return .variable(name.renaming(used: &used, i: &i))
-            case let .combinator(name, terms):
-                return .combinator(name, terms.map { $0.renamingVariables(used: &used, i: &i) })
-        }
-    }
-
     fileprivate func renamingAnonymous(used: inout Set<String>, i: inout Int) -> Term {
         switch self {
             case let .variable(name):
