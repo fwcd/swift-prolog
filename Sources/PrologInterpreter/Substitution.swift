@@ -39,4 +39,9 @@ public struct Substitution: Equatable, CustomStringConvertible {
             && zip(lhs.mappings, rhs.mappings)
                 .allSatisfy { $0.0.0 == $0.1.0 && $0.0.1 == $0.1.1 }
     }
+    
+    /// Restricts the substitution's mappings to those contained in the given list of variable names.
+    public func restrictedTo(varNames: [String]) -> Substitution {
+        return Substitution(mappings.filter { varNames.contains($0.0) })
+    }
 }
