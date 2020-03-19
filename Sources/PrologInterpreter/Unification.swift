@@ -17,7 +17,7 @@ public extension Term {
                     case .variable(_):
                         return (self, rhs)
                     case let .combinator(n2, ts2):
-                        guard n1 == n2 && ts1.count == ts2.count else { return nil }
+                        guard n1 == n2 && ts1.count == ts2.count else { return (self, rhs) }
                         return zip(ts1, ts2).compactMap { $0.0.disagreementSet(with: $0.1) }.first
                 }
         }
