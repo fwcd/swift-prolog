@@ -1,3 +1,4 @@
+import Foundation
 import PrologSyntax
 import PrologUtils
 
@@ -37,7 +38,14 @@ public class PrologREPLHandler {
     
     /// Loads a Prolog program from the given file path.
     private func load(filePath: String) {
-        
+        do {
+            guard let rawData = FileManager.default.contents(atPath: filePath) else { throw PrologREPLError.couldNotReadFile }
+            guard let raw = String(data: rawData, encoding: .utf8) else { throw PrologREPLError.couldNotDecodeFile }
+            guard let program = Program.parser.parseValue(from: raw) else { throw PrologREPLError.couldNotParseFile }
+            print("Successfully loaded \(program.rules.count) \("rule".pluralize(with: program.rules.count))")
+        } catch {
+            print("Could not load file: \(error)")
+        }
     }
     
     /// Reloads the currently loaded file path.
