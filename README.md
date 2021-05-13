@@ -1,4 +1,7 @@
 # Prolog Interpreter for Swift
+
+[![Linux](https://github.com/fwcd/swift-prolog/workflows/Linux/badge.svg)](https://github.com/fwcd/swift-prolog/actions)
+
 A lightweight Prolog interpreter written in pure Swift.
 
 This project includes a library for combinatory parsing.
